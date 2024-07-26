@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "697886710494",
+    "project_id": "fixit-1b8b8",
+    "storage_bucket": "fixit-1b8b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697886710494:android:773bddd5f8e39041c3004f",
+        "android_client_info": {
+          "package_name": "com.example.fixit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "697886710494-v1n279dao765l9fntavts7492j68b2mq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fixit",
+            "certificate_hash": "892741e6684d592b5efc05f6304dc5ad1a32bab5"
+          }
+        },
+        {
+          "client_id": "697886710494-4e2eqfpavnbecnj39vgt5qv9g6ivvs1k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIL2QGPyrbqyCXF9sCP_m0lrhvr6gK2oM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "697886710494-4e2eqfpavnbecnj39vgt5qv9g6ivvs1k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "697886710494-gko89oh0mboqrppu26tlsph6f6592gba.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fixit"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697886710494:android:bd3e569feffc50c0c3004f",
+        "android_client_info": {
+          "package_name": "com.example.fixit_provider"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "697886710494-4e2eqfpavnbecnj39vgt5qv9g6ivvs1k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIL2QGPyrbqyCXF9sCP_m0lrhvr6gK2oM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "697886710494-4e2eqfpavnbecnj39vgt5qv9g6ivvs1k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "697886710494-gko89oh0mboqrppu26tlsph6f6592gba.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fixit"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
