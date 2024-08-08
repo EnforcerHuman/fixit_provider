@@ -12,7 +12,7 @@ class AuthRemoteDataSource {
     print('Sending OTP started..........');
     await _auth.verifyPhoneNumber(
       phoneNumber: "+91$phone",
-      timeout: Duration(seconds: 40),
+      timeout: const Duration(seconds: 40),
       verificationCompleted: (credential) {
         print('Verification completed automatically');
       },

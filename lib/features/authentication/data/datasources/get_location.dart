@@ -8,10 +8,6 @@ class GetCurrentLocation {
     bool serviceEnabled = true;
     LocationPermission permission;
 
-    // // Test if location services are enabled.
-
-    // serviceEnabled = await Geolocator.isLocationServiceEnabled();
-
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();

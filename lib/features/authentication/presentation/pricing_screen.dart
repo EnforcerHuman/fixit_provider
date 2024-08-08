@@ -5,6 +5,7 @@ import 'package:fixit_provider/features/authentication/presentation/bloc/service
 import 'package:fixit_provider/features/authentication/presentation/bloc/service_provider/service_provider_event.dart';
 import 'package:fixit_provider/features/authentication/presentation/bloc/service_provider/service_provider_state.dart';
 import 'package:fixit_provider/features/authentication/presentation/verification_pending_screen.dart';
+import 'package:fixit_provider/features/authentication/presentation/widgets/otp_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -104,29 +105,31 @@ class PricingAndRateScreen extends StatelessWidget {
               Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(16.0),
-                  child: RoundButton(
-                      title: 'Submit',
-                      onPressed: () async {
-                        String payment = paymentController.text;
+                  child: state is ServiceProviderCreating
+                      ? const OtpSending(text: 'Processing')
+                      : RoundButton(
+                          title: 'Submit',
+                          onPressed: () async {
+                            String payment = paymentController.text;
 
-                        context
-                            .read<ServiceProviderBloc>()
-                            .add(UpdateHourlyPayment(payment));
-                        context
-                            .read<ServiceProviderBloc>()
-                            .add(UpdateMoreInfo(infoController.text));
-                        context
-                            .read<ServiceProviderBloc>()
-                            .add(UpdateIsVerified(false));
+                            context
+                                .read<ServiceProviderBloc>()
+                                .add(UpdateHourlyPayment(payment));
+                            context
+                                .read<ServiceProviderBloc>()
+                                .add(UpdateMoreInfo(infoController.text));
+                            context
+                                .read<ServiceProviderBloc>()
+                                .add(UpdateIsVerified(false));
 
-                        BlocProvider.of<ServiceProviderBloc>(context);
-                        await Future.delayed(const Duration(seconds: 5));
-                        // ignore: use_build_context_synchronously
-                        context
-                            .read<ServiceProviderBloc>()
-                            .add(SubmitServiceProvider());
-                        // bloc.storeServiceProviderData();
-                      })),
+                            BlocProvider.of<ServiceProviderBloc>(context);
+                            await Future.delayed(const Duration(seconds: 5));
+                            // ignore: use_build_context_synchronously
+                            context
+                                .read<ServiceProviderBloc>()
+                                .add(SubmitServiceProvider());
+                            // bloc.storeServiceProviderData();
+                          })),
             ],
           );
         },

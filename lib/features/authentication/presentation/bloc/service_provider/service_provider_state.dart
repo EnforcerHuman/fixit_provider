@@ -19,3 +19,5 @@ class ServiceProviderError extends ServiceProviderState {
 }
 
 class ServiceProviderCreated extends ServiceProviderState {}
+
+class ServiceProviderCreating extends ServiceProviderState {}

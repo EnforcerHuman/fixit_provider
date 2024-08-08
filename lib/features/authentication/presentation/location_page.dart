@@ -15,9 +15,6 @@ class LocationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ServiceProvider serviceprovider = ServiceProvider();
-    // late GoogleMapController myController;
-    // LatLng _currentPosition = LatLng(37.7749, -122.4194);
     late LatLng position;
     late String adress;
     TextEditingController locationcontroller =
@@ -29,7 +26,6 @@ class LocationScreen extends StatelessWidget {
       body: SafeArea(
           child: BlocConsumer<LocationBloc, LocationState>(
         listener: (context, state) {
-          // TODO: implement listener
           if (state is LocationSelected) {
             locationcontroller.text = state.adress;
             position = state.selectedPosition;
@@ -49,8 +45,8 @@ class LocationScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   const Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: const Text(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
                       'We need to know your exact location so that Clients can find you easily near you.',
                       style: TextStyle(
                           fontSize: 15,

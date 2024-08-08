@@ -36,14 +36,13 @@ class LocationWidget extends StatelessWidget {
                 position: position,
               ),
             },
-            onMapCreated: (GoogleMapController controller) {
-              // Handle controller if needed
-            },
+            onMapCreated: (GoogleMapController controller) {},
             onTap: (LatLng tappedPosition) async {
               List<Placemark> placemarks = await placemarkFromCoordinates(
                   tappedPosition.latitude, tappedPosition.longitude);
               print(placemarks);
               // ignore: use_build_context_synchronously
+
               BlocProvider.of<LocationBloc>(context).add(SelectLocationEvent(
                   tappedPosition,
                   '${placemarks.first.name},${placemarks.first.thoroughfare},${placemarks.first.locality},${placemarks.first.street} ,${placemarks.first.postalCode}'));

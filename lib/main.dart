@@ -9,6 +9,10 @@ import 'package:fixit_provider/features/authentication/presentation/bloc/sign_in
 import 'package:fixit_provider/features/authentication/presentation/bloc/sign_up/sign_up_bloc.dart';
 import 'package:fixit_provider/features/authentication/presentation/bloc/upload_file/upload_file_bloc.dart';
 import 'package:fixit_provider/features/authentication/presentation/bloc/user_status/user_status_bloc.dart';
+import 'package:fixit_provider/features/booking/domain/usecases/booking_use_case.dart';
+import 'package:fixit_provider/features/booking/presentation/bloc/cancelled_bookings.dart/cancelled_bookings_bloc.dart';
+import 'package:fixit_provider/features/booking/presentation/bloc/requested_bookings_bloc/requested_bookings_bloc.dart';
+import 'package:fixit_provider/features/booking/presentation/bloc/upcoming_bookings_bloc/upcoming_bookings_bloc.dart';
 import 'package:fixit_provider/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,7 +49,13 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SignInBloc()),
         BlocProvider(create: (context) => UserStatusBloc()),
         BlocProvider(
-            create: (context) => ForgotPasswordBloc(AuthRemoteDataSource()))
+            create: (context) => ForgotPasswordBloc(AuthRemoteDataSource())),
+        BlocProvider(
+            create: (context) => RequestedBookingsBloc(BookingUseCase())),
+        BlocProvider(
+            create: (context) => UpcomingBookingsBloc(BookingUseCase())),
+        BlocProvider(
+            create: (context) => CancelledBookingsBloc(BookingUseCase()))
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

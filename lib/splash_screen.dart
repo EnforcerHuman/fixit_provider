@@ -1,7 +1,8 @@
 import 'package:fixit_provider/features/authentication/data/datasources/auth_local_data_source.dart';
 import 'package:fixit_provider/features/authentication/presentation/sign_in_scree.dart';
 import 'package:fixit_provider/features/authentication/presentation/verification_pending_screen.dart';
-import 'package:fixit_provider/features/booking/home_screen.dart';
+import 'package:fixit_provider/features/booking/presentation/screens/home_screen.dart';
+import 'package:fixit_provider/features/main_navigation/presentation/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -26,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     isVerified = await SharedPreferencesHelper.getVerificationStatus();
     if (isLogged && isVerified) {
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (ctx) => const HomeScreen()),
+        MaterialPageRoute(builder: (ctx) => MainScreen()),
         (route) => false,
       );
     } else if (isLogged && !isVerified) {

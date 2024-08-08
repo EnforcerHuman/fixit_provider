@@ -1,7 +1,8 @@
 import 'package:fixit_provider/features/authentication/data/datasources/auth_local_data_source.dart';
 import 'package:fixit_provider/features/authentication/presentation/bloc/user_status/user_status_bloc.dart';
 import 'package:fixit_provider/features/authentication/presentation/widgets/otp_loading.dart';
-import 'package:fixit_provider/features/booking/home_screen.dart';
+import 'package:fixit_provider/features/booking/presentation/screens/home_screen.dart';
+import 'package:fixit_provider/features/main_navigation/presentation/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,7 +19,7 @@ class VerificationPendingScreen extends StatelessWidget {
               backgroundColor: Colors.green,
               content: Text('Congrats! Your Application is verified')));
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
+              MaterialPageRoute(builder: (context) => MainScreen()),
               (route) => false);
         } else if (state is UserNotVerified) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

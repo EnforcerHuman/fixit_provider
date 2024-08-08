@@ -239,6 +239,7 @@ class ServiceProviderBloc
 
   void _onSubmitServiceProvider(
       SubmitServiceProvider event, Emitter<ServiceProviderState> emit) async {
+    emit(ServiceProviderCreating());
     StoreServiceProviderData storeServiceProviderData =
         StoreServiceProviderData(ServiceProviderRepository());
     bool saved = await storeServiceProviderData(_serviceProvider);

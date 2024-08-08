@@ -62,6 +62,12 @@ class UploadDocumentsScreen extends StatelessWidget {
             context
                 .read<ServiceProviderBloc>()
                 .add(UpdatePhoto(state.imagepath!));
+          } else if (state is CertificateUploadingState) {
+            boxtext2 = 'uploading';
+          } else if (state is ProfileImageUploadingState) {
+            boxtext3 = 'Uploading';
+          } else if (state is LicenseUploadingState) {
+            boxtext1 = 'uploading';
           }
         },
         builder: (context, state) {
@@ -79,7 +85,6 @@ class UploadDocumentsScreen extends StatelessWidget {
                   boxText: boxtext1,
                   color: color1,
                   onTap: () async {
-                    print('clicked');
                     XFile? image = await imagepicker.pickImage();
                     if (image != null) {
                       BlocProvider.of<UploadFileBloc>(context)

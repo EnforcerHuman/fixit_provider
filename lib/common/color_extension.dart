@@ -11,7 +11,7 @@ class Tcolor {
   static List<Color> get secondryGradient => [secondryColor1, secondryColor2];
   static List<Color> get teritoryGradient => [secondryColor2, secondryColor1];
   static Color get black => const Color(0xff1D1617);
-  static Color get gray => const Color(0xff786F72);
+  static Color get gray => Color.fromARGB(255, 79, 63, 68);
   static Color get white => Colors.white;
   static Color get lightGray => const Color(0xffF7F8F8);
 }

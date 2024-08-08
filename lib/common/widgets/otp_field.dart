@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class OtpField extends StatelessWidget {
   final TextEditingController? textcontroller;
@@ -15,7 +16,8 @@ class OtpField extends StatelessWidget {
           maxLength: 1,
           controller: textcontroller,
           textAlign: TextAlign.center,
-          decoration: InputDecoration(border: OutlineInputBorder()),
+          decoration: const InputDecoration(
+              border: OutlineInputBorder(), counterText: ''),
         ),
       ),
     );

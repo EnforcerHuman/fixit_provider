@@ -6,7 +6,8 @@ import 'package:fixit_provider/features/authentication/presentation/forgot_passw
 import 'package:fixit_provider/features/authentication/presentation/sign_up_screen.dart';
 import 'package:fixit_provider/features/authentication/presentation/verification_pending_screen.dart';
 import 'package:fixit_provider/features/authentication/presentation/widgets/otp_loading.dart';
-import 'package:fixit_provider/features/booking/home_screen.dart';
+import 'package:fixit_provider/features/booking/presentation/screens/home_screen.dart';
+import 'package:fixit_provider/features/main_navigation/presentation/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,7 +30,7 @@ class SignInScreen extends StatelessWidget {
           if (state is SignInSuccess) {
             if (state.navigationTarget == 'HomeScreen') {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (ctx) => const HomeScreen()),
+                  MaterialPageRoute(builder: (ctx) => const MainScreen()),
                   (route) => false);
             } else if (state.navigationTarget == 'VerificationPendingScreen') {
               Navigator.of(context).pushAndRemoveUntil(
