@@ -1,8 +1,10 @@
 import 'package:calendar_agenda/calendar_agenda.dart';
 import 'package:fixit_provider/common/color_extension.dart';
 import 'package:fixit_provider/features/authentication/data/datasources/auth_local_data_source.dart';
+import 'package:fixit_provider/features/booking/data/model/booking_model.dart';
 import 'package:fixit_provider/features/booking/presentation/bloc/upcoming_bookings_bloc/upcoming_bookings_bloc.dart';
-import 'package:fixit_provider/features/booking/presentation/widgets/booking_card.dart';
+import 'package:fixit_provider/features/booking/presentation/screens/payment_collection_screen.dart';
+import 'package:fixit_provider/features/booking/presentation/widgets/upcoming_booking_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -12,12 +14,12 @@ class UpcomingBookingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CalendarAgendaController _calendarAgendaControllerAppBar =
+    final CalendarAgendaController calendarAgendaControllerAppBar =
         CalendarAgendaController();
     return Scaffold(
         appBar: CalendarAgenda(
           backgroundColor: Tcolor.secondryColor2,
-          controller: _calendarAgendaControllerAppBar,
+          controller: calendarAgendaControllerAppBar,
           appbar: true,
           selectedDayPosition: SelectedDayPosition.left,
           leading: IconButton(
@@ -25,9 +27,7 @@ class UpcomingBookingsScreen extends StatelessWidget {
               Icons.arrow_back_ios_new,
               color: Colors.white,
             ),
-            onPressed: () {
-              print('tapped');
-            },
+            onPressed: () {},
           ),
           weekDay: WeekDay.long,
           fullCalendarScroll: FullCalendarScroll.horizontal,
@@ -38,13 +38,11 @@ class UpcomingBookingsScreen extends StatelessWidget {
           calendarEventColor: Colors.green,
           firstDate: DateTime.now().subtract(const Duration(days: 140)),
           lastDate: DateTime.now().add(const Duration(days: 60)),
-          // events: List.generate(
-          //     100,
-          //     (index) => DateTime.now()
-          //         .subtract(Duration(days: index * random.nextInt(5)))),
           onDateSelected: (date) async {
             String actualdate = DateFormat('yyy-MM-dd').format(date);
             String id = await SharedPreferencesHelper.getUserId();
+            // ignore: use_build_context_synchronously
+            print(actualdate);
             context
                 .read<UpcomingBookingsBloc>()
                 .add(GetUpcomingBookings(actualdate, id));
@@ -52,7 +50,6 @@ class UpcomingBookingsScreen extends StatelessWidget {
         ),
         body: BlocBuilder<UpcomingBookingsBloc, UpcomingBookingsState>(
           builder: (context, state) {
-            print(state);
             if (state is UpcomingBookingLoaded) {
               if (state.upcomingBookings.isEmpty) {
                 return const Center(
@@ -63,14 +60,28 @@ class UpcomingBookingsScreen extends StatelessWidget {
                     child: ListView.builder(
                         itemCount: state.upcomingBookings.length,
                         itemBuilder: (context, index) {
-                          return BookingCard(
-                              service:
-                                  state.upcomingBookings[index].serviceName,
-                              amount: 300,
-                              bookingDate:
-                                  state.upcomingBookings[index].bookingDateTime,
-                              bookedOn: state.upcomingBookings[index].createdAt,
-                              onButtonPressed: () {});
+                          bool isRequested =
+                              state.upcomingBookings[index].paymentStatus ==
+                                  'Requested';
+                          return Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: UpcomingBookingCard(
+                                isRequsted: isRequested,
+                                service:
+                                    state.upcomingBookings[index].serviceName,
+                                amount: 300,
+                                bookingDate: state
+                                    .upcomingBookings[index].bookingDateTime,
+                                bookedOn:
+                                    state.upcomingBookings[index].createdAt,
+                                onButtonPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (ctx) => PaymentCollectionScreen(
+                                            bookingModel:
+                                                state.upcomingBookings[index],
+                                          )));
+                                }),
+                          );
                         }));
               }
             } else if (state is UpcomingBookingFailed) {
@@ -78,7 +89,7 @@ class UpcomingBookingsScreen extends StatelessWidget {
                 child: Text('No Bookings'),
               );
             } else {
-              return CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
             }
           },
         ));

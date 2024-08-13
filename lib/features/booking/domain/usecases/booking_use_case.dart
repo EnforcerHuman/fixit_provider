@@ -1,4 +1,3 @@
-import 'package:fixit_provider/features/authentication/data/datasources/auth_local_data_source.dart';
 import 'package:fixit_provider/features/booking/data/data_source/booking_remote_data_source.dart';
 import 'package:fixit_provider/features/booking/data/model/booking_model.dart';
 
@@ -15,6 +14,7 @@ class BookingUseCase {
   }
 
   Stream<List<BookingModel>> getAcceptedBooking(String date, String id) {
+    print(date);
     return bookingRemotedataSource.getBookings(id).map((bookings) {
       return bookings
           .where((booking) =>
@@ -26,6 +26,14 @@ class BookingUseCase {
   Stream<List<BookingModel>> getRejectedBookings(String id) {
     return bookingRemotedataSource.getBookings(id).map((bookings) {
       return bookings.where((booking) => booking.status == 'Rejected').toList();
+    });
+  }
+
+  Stream<List<BookingModel>> getCompletedBookings(String providerId) {
+    return bookingRemotedataSource.getBookings(providerId).map((bookings) {
+      return bookings
+          .where((booking) => booking.status == 'Completed')
+          .toList();
     });
   }
 }

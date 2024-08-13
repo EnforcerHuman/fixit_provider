@@ -19,8 +19,8 @@ class BottomNavBar extends StatelessWidget {
         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
         BottomNavigationBarItem(
             icon: Icon(Icons.schedule_outlined), label: 'Schedules'),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today_outlined), label: 'Bookings'),
+        // BottomNavigationBarItem(
+        //     icon: Icon(Icons.calendar_today_outlined), label: 'Bookings'),
         BottomNavigationBarItem(icon: Icon(Icons.message), label: 'Messages'),
         BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
       ],

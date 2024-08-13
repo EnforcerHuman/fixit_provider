@@ -1,5 +1,6 @@
 import 'package:fixit_provider/features/booking/presentation/bloc/top_nav_bar_bloc/top_nav_bar_bloc.dart';
 import 'package:fixit_provider/features/booking/presentation/screens/cancelled_bookings_screen.dart';
+import 'package:fixit_provider/features/booking/presentation/screens/completed_bookings_screen.dart';
 import 'package:fixit_provider/features/booking/presentation/screens/pending_booking_request.dart';
 import 'package:fixit_provider/features/booking/presentation/screens/upcoming_bookings.dart';
 import 'package:fixit_provider/features/booking/presentation/widgets/top_nav_bar.dart';
@@ -11,7 +12,10 @@ class AllBookingsScreen extends StatelessWidget {
     const PendingBookingRequestScreen(),
     const UpcomingBookingsScreen(),
     const CancelledBookingsScreen(),
+    const CompletedBookingsScreen()
   ];
+
+  AllBookingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

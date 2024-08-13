@@ -10,9 +10,15 @@ import 'package:fixit_provider/features/authentication/presentation/bloc/sign_up
 import 'package:fixit_provider/features/authentication/presentation/bloc/upload_file/upload_file_bloc.dart';
 import 'package:fixit_provider/features/authentication/presentation/bloc/user_status/user_status_bloc.dart';
 import 'package:fixit_provider/features/booking/domain/usecases/booking_use_case.dart';
+import 'package:fixit_provider/features/booking/domain/usecases/update_booking_status_usecases.dart';
 import 'package:fixit_provider/features/booking/presentation/bloc/cancelled_bookings.dart/cancelled_bookings_bloc.dart';
+import 'package:fixit_provider/features/booking/presentation/bloc/completed_bookings_bloc/completed_bookings_bloc.dart';
+import 'package:fixit_provider/features/booking/presentation/bloc/payment_request_bloc/payment_request_bloc.dart';
+import 'package:fixit_provider/features/booking/presentation/bloc/request_status_bloc/request_status_bloc.dart';
 import 'package:fixit_provider/features/booking/presentation/bloc/requested_bookings_bloc/requested_bookings_bloc.dart';
 import 'package:fixit_provider/features/booking/presentation/bloc/upcoming_bookings_bloc/upcoming_bookings_bloc.dart';
+import 'package:fixit_provider/features/payment/domain/repositories/payment_repositories.dart';
+import 'package:fixit_provider/features/payment/presentation/bloc/payment_bloc/payment_bloc.dart';
 import 'package:fixit_provider/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,7 +61,15 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) => UpcomingBookingsBloc(BookingUseCase())),
         BlocProvider(
-            create: (context) => CancelledBookingsBloc(BookingUseCase()))
+            create: (context) => CancelledBookingsBloc(BookingUseCase())),
+        BlocProvider(
+            create: (context) => CompletedBookingsBloc(BookingUseCase())),
+        BlocProvider(
+            create: (context) =>
+                RequestStatusBloc(UpdateBookingStatusUsecases())),
+        BlocProvider(
+            create: (context) =>
+                PaymentRequestBloc(UpdateBookingStatusUsecases()))
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
