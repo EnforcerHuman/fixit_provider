@@ -17,8 +17,13 @@ import 'package:fixit_provider/features/booking/presentation/bloc/payment_reques
 import 'package:fixit_provider/features/booking/presentation/bloc/request_status_bloc/request_status_bloc.dart';
 import 'package:fixit_provider/features/booking/presentation/bloc/requested_bookings_bloc/requested_bookings_bloc.dart';
 import 'package:fixit_provider/features/booking/presentation/bloc/upcoming_bookings_bloc/upcoming_bookings_bloc.dart';
-import 'package:fixit_provider/features/payment/domain/repositories/payment_repositories.dart';
-import 'package:fixit_provider/features/payment/presentation/bloc/payment_bloc/payment_bloc.dart';
+import 'package:fixit_provider/features/chat/data/data_source/firebase_chat_data_source.dart';
+import 'package:fixit_provider/features/chat/data/repositories/chat_repository.dart';
+import 'package:fixit_provider/features/chat/data/repositories/chat_repository_impl.dart';
+import 'package:fixit_provider/features/chat/domain/usecases/get_messages.dart';
+import 'package:fixit_provider/features/chat/presentation/bloc/chat_bloc/chat_bloc.dart';
+import 'package:fixit_provider/features/chat/presentation/bloc/message_bloc/message_bloc.dart';
+import 'package:fixit_provider/features/payment/presentation/bloc/seven_days_income/seven_days_income_bloc.dart';
 import 'package:fixit_provider/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,6 +72,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) =>
                 RequestStatusBloc(UpdateBookingStatusUsecases())),
+        BlocProvider(create: (context) => ChatBloc()),
+        BlocProvider(
+            create: (context) => MessageBloc(
+                GetMessages(ChatRepositoryImpl(FirebaseChatDatasource())))),
+        BlocProvider(create: (context) => SevenDaysIncomeBloc()),
         BlocProvider(
             create: (context) =>
                 PaymentRequestBloc(UpdateBookingStatusUsecases()))

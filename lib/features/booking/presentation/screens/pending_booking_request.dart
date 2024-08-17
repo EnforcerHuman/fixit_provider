@@ -93,6 +93,7 @@ class PendingBookingRequestScreen extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (ctx) => WorkDetailsScreen(
+                            isUpcoming: false,
                             bookingDetails: booking,
                           ),
                         ),

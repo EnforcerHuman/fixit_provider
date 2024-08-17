@@ -1,8 +1,8 @@
 import 'package:calendar_agenda/calendar_agenda.dart';
 import 'package:fixit_provider/common/color_extension.dart';
 import 'package:fixit_provider/features/authentication/data/datasources/auth_local_data_source.dart';
-import 'package:fixit_provider/features/booking/data/model/booking_model.dart';
 import 'package:fixit_provider/features/booking/presentation/bloc/upcoming_bookings_bloc/upcoming_bookings_bloc.dart';
+import 'package:fixit_provider/features/booking/presentation/screens/booking_details_screen.dart';
 import 'package:fixit_provider/features/booking/presentation/screens/payment_collection_screen.dart';
 import 'package:fixit_provider/features/booking/presentation/widgets/upcoming_booking_card.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +66,14 @@ class UpcomingBookingsScreen extends StatelessWidget {
                           return Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: UpcomingBookingCard(
+                                onViewDetails: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (ctx) => WorkDetailsScreen(
+                                            isUpcoming: true,
+                                            bookingDetails:
+                                                state.upcomingBookings[index],
+                                          )));
+                                },
                                 isRequsted: isRequested,
                                 service:
                                     state.upcomingBookings[index].serviceName,

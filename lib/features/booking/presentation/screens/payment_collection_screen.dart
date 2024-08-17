@@ -47,12 +47,12 @@ class PaymentCollectionScreen extends StatelessWidget {
                 child: RoundButton(
                     title: 'Request To pay',
                     onPressed: () {
+                      int totalAmount = int.parse(workhourController.text) *
+                          int.parse(bookingModel.hourlyPayment);
                       print((workhourController.text *
                           int.parse(bookingModel.hourlyPayment)));
                       context.read<PaymentRequestBloc>().add(RequestPayment(
-                          bookingModel.id,
-                          (workhourController.text *
-                              int.parse(bookingModel.hourlyPayment))));
+                          bookingModel.id, totalAmount.toString()));
                     }),
               )
             ],

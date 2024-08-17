@@ -1,5 +1,6 @@
 import 'package:fixit_provider/features/booking/presentation/screens/all_bookings_screen.dart';
 import 'package:fixit_provider/features/booking/presentation/screens/home_screen.dart';
+import 'package:fixit_provider/features/chat/presentation/pages/conversation_list_screen.dart';
 import 'package:fixit_provider/features/main_navigation/presentation/bottom_navigation_bloc/bottom_navigation_bloc_bloc.dart';
 import 'package:fixit_provider/features/main_navigation/presentation/bottom_navigation_bloc/bottom_navigation_bloc_event.dart';
 import 'package:fixit_provider/features/main_navigation/presentation/bottom_navigation_bloc/bottom_navigation_bloc_state.dart';
@@ -20,7 +21,11 @@ class MainScreen extends StatelessWidget {
 }
 
 class MainScreenContent extends StatelessWidget {
-  final List<Widget> _pages = [HomeScreen(), AllBookingsScreen()];
+  final List<Widget> _pages = [
+    HomeScreen(),
+    AllBookingsScreen(),
+    ConversationListScreen()
+  ];
 
   MainScreenContent({super.key});
 

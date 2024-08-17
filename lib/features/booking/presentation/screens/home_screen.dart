@@ -1,156 +1,178 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fixit_provider/common/widgets/app_bar.dart';
+import 'package:fixit_provider/common/widgets/round_button.dart';
+import 'package:fixit_provider/core/styles/app_colors.dart';
 import 'package:fixit_provider/features/authentication/data/datasources/auth_local_data_source.dart';
-import 'package:fixit_provider/features/authentication/presentation/sign_in_scree.dart';
+import 'package:fixit_provider/features/booking/presentation/bloc/requested_bookings_bloc/requested_bookings_bloc.dart';
+import 'package:fixit_provider/features/booking/presentation/constants/_home_screen_strings.dart';
+import 'package:fixit_provider/features/booking/presentation/widgets/mini_booking_card.dart';
+import 'package:fixit_provider/features/payment/domain/enitities/income.dart';
+import 'package:fixit_provider/features/payment/presentation/bloc/seven_days_income/seven_days_income_bloc.dart';
+import 'package:fixit_provider/features/payment/presentation/widgets/income_bar_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    String id = 'x90xCE8D67dI15D5J3MYKmjGJgX2';
+    // void test() async {
+    //   id = await SharedPreferencesHelper.getUserId();
+    // }
+
+    context.read<RequestedBookingsBloc>().add(GetRequestedBooking());
+    context.read<SevenDaysIncomeBloc>().add(LoadSevenDaysIncome(id));
+    final List<IncomeData> incomeData = [
+      IncomeData(date: DateTime(2025, 1, 1), amount: 1000),
+      IncomeData(date: DateTime(2024, 1, 1), amount: 1200),
+      IncomeData(date: DateTime(2024, 3, 1), amount: 900),
+      IncomeData(date: DateTime(2024, 4, 1), amount: 1500),
+      IncomeData(date: DateTime(2024, 5, 1), amount: 1800),
+      IncomeData(date: DateTime(2024, 6, 1), amount: 0),
+      IncomeData(date: DateTime(2024, 7, 1), amount: 1200),
+    ];
     return Scaffold(
-      body: Center(
-        child: GestureDetector(
-          child: const Text('HOme Screen'),
-          onTap: () {
-            SharedPreferencesHelper.setUserId('');
-            SharedPreferencesHelper.setLoginStatus(false);
-            SharedPreferencesHelper.setVerificationStatus(false);
-
-            try {
-              User user = FirebaseAuth.instance.currentUser!;
-              user.delete();
-              print('User account deleted');
-            } catch (e) {
-              print('Failed to delete user account: $e');
-            }
-
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (ctx) => const SignInScreen()),
-                (route) => false);
-          },
+      appBar: const CustomAppBar(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const WelcomeWidget(),
+                ResponsiveHeader(
+                  heading: HomeScreenStrings.incomeHistoryTitle,
+                  buttonText: HomeScreenStrings.historyButtonLabel,
+                  onTap: () {},
+                ),
+                BlocBuilder<SevenDaysIncomeBloc, SevenDaysIncomeState>(
+                  builder: (context, state) {
+                    if (state is SevendaysIncomeLoaded) {
+                      print(state.income.toString());
+                      return Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: IncomeBarChart(incomeData: state.income),
+                      );
+                    } else if (state is SevendaysIncomeError) {
+                      print(state.error);
+                      return Text(state.error);
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
+                ResponsiveHeader(
+                    heading: HomeScreenStrings.bookingHomeScreenTitle,
+                    buttonText: HomeScreenStrings.viewAllButtonLabel,
+                    onTap: () {}),
+                const BookingList()
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 }
-// import 'package:fixit_provider/features/authentication/data/datasources/auth_local_data_source.dart';
-// import 'package:fixit_provider/features/booking/data/data_source/booking_remote_data_source.dart';
-// import 'package:fixit_provider/features/booking/domain/usecases/booking_use_case.dart';
-// import 'package:flutter/material.dart';
 
-// class HomeScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Welcome Back, Melbin'),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Text(
-//               'Bookings',
-//               style: TextStyle(
-//                 fontSize: 20,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//             SizedBox(height: 8),
-//             BookingCard(
-//               clientName: 'Mr. John',
-//               date: 'Tomorrow, 10:00 AM',
-//             ),
-//             SizedBox(height: 16),
-//             Text(
-//               'Messages',
-//               style: TextStyle(
-//                 fontSize: 20,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//             SizedBox(height: 8),
-//             MessageCard(
-//               senderName: 'Mr. John',
-//               message: '16.04 - Tomorrow, 10:00 AM',
-//             ),
-//             SizedBox(height: 16),
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceAround,
-//               children: [
-//                 BottomNavItem(icon: Icons.home, label: 'Home'),
-//                 BottomNavItem(icon: Icons.schedule, label: 'Schedule'),
-//                 BottomNavItem(icon: Icons.message, label: 'Messages'),
-//                 BottomNavItem(icon: Icons.person, label: 'Profile'),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+class BookingList extends StatelessWidget {
+  const BookingList({super.key});
 
-// class BookingCard extends StatelessWidget {
-//   final String clientName;
-//   final String date;
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RequestedBookingsBloc, RequestedBookingsState>(
+      builder: (context, state) {
+        if (state is RequestedBookingLoaded) {
+          return SizedBox(
+            height: 200,
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+                crossAxisSpacing: 10.0,
+                mainAxisSpacing: 10.0,
+                childAspectRatio: 1.0,
+              ),
+              itemCount: state.requestedBooking.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return MiniBookingCard(
+                  service: state.requestedBooking[index].serviceName,
+                  amount:
+                      double.parse(state.requestedBooking[index].hourlyPayment),
+                  bookingDate: state.requestedBooking[index].bookingDateTime,
+                  bookedOn: state.requestedBooking[index].createdAt,
+                );
+              },
+            ),
+          );
+        } else if (state is RequestedBookingError) {
+          return const Center(child: Text('Error: '));
+        }
+        return Container();
+      },
+    );
+  }
+}
 
-//   BookingCard({required this.clientName, required this.date});
+class WelcomeWidget extends StatelessWidget {
+  const WelcomeWidget({super.key});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       elevation: 2,
-//       child: ListTile(
-//         title: Text(clientName),
-//         subtitle: Text(date),
-//         trailing: Icon(Icons.arrow_forward_ios),
-//         onTap: () {},
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Welcome Back', style: TextStyle(fontWeight: FontWeight.bold)),
+          const SizedBox(
+            height: 10,
+          ),
+          Text('Melbin', style: TextStyle(fontWeight: FontWeight.w400)),
+        ],
+      ),
+    );
+  }
+}
 
-// class MessageCard extends StatelessWidget {
-//   final String senderName;
-//   final String message;
+class ResponsiveHeader extends StatelessWidget {
+  final String heading;
+  final String buttonText;
+  final VoidCallback onTap;
 
-//   MessageCard({required this.senderName, required this.message});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       elevation: 2,
-//       child: ListTile(
-//         title: Text(senderName),
-//         subtitle: Text(message),
-//         trailing: Icon(Icons.arrow_forward_ios),
-//         onTap: () async {
-//           print('tapped');
-//           // BookingUseCase bookingUseCase = BookingUseCase();
-//           // await bookingUseCase.getAcceptedBooking("2024-08-24");
-//         },
-//       ),
-//     );
-//   }
-// }
-
-// class BottomNavItem extends StatelessWidget {
-//   final IconData icon;
-//   final String label;
-
-//   BottomNavItem({required this.icon, required this.label});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         Icon(icon),
-//         SizedBox(height: 4),
-//         Text(label),
-//       ],
-//     );
-//   }
-// }
+  const ResponsiveHeader(
+      {super.key,
+      required this.heading,
+      required this.buttonText,
+      required this.onTap});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              heading,
+              style: TextStyle(
+                color: AppColors.secondaryColor,
+                fontWeight: FontWeight.bold,
+                fontSize: MediaQuery.of(context).size.width > 600 ? 20 : 16,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width > 600 ? 120 : 100,
+            child: RoundButton(
+              title: buttonText,
+              onPressed: onTap,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

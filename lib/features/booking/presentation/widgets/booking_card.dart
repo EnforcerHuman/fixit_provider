@@ -25,7 +25,7 @@ class BookingCard extends StatelessWidget {
         final isSmallScreen = width < 600;
         return Container(
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.blue, width: 2), // Blue border
+            border: Border.all(color: Colors.blue, width: 2),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Card(

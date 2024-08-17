@@ -7,7 +7,10 @@ class UpcomingBookingCard extends StatelessWidget {
   final String bookingDate;
   final String bookedOn;
   final VoidCallback onButtonPressed;
+  final VoidCallback onViewDetails;
+
   final bool isRequsted;
+
   const UpcomingBookingCard({
     super.key,
     required this.service,
@@ -16,6 +19,7 @@ class UpcomingBookingCard extends StatelessWidget {
     required this.bookedOn,
     required this.onButtonPressed,
     required this.isRequsted,
+    required this.onViewDetails,
   });
 
   @override
@@ -68,11 +72,23 @@ class UpcomingBookingCard extends StatelessWidget {
                           style:
                               TextStyle(color: Color.fromARGB(255, 90, 160, 9)),
                         ))
-                      : SizedBox(
-                          width: double.infinity,
-                          child: RoundButton(
-                              title: 'Request to pay',
-                              onPressed: onButtonPressed)),
+                      : Row(
+                          children: [
+                            Flexible(
+                              child: RoundButton(
+                                title: 'Request to pay',
+                                onPressed: onButtonPressed,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Flexible(
+                              child: RoundButton(
+                                title: 'View Details',
+                                onPressed: onViewDetails,
+                              ),
+                            ),
+                          ],
+                        ),
                 ],
               ),
             ),
