@@ -1,7 +1,6 @@
 import 'package:fixit_provider/features/authentication/data/datasources/auth_local_data_source.dart';
 import 'package:fixit_provider/features/authentication/presentation/sign_in_scree.dart';
 import 'package:fixit_provider/features/authentication/presentation/verification_pending_screen.dart';
-import 'package:fixit_provider/features/booking/presentation/screens/home_screen.dart';
 import 'package:fixit_provider/features/main_navigation/presentation/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 

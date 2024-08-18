@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fixit_provider/common/widgets/app_bar.dart';
 import 'package:fixit_provider/common/widgets/round_button.dart';
 import 'package:fixit_provider/common/widgets/text_editing_field.dart';
@@ -16,17 +15,7 @@ class PaymentCollectionScreen extends StatelessWidget {
     TextEditingController workhourController = TextEditingController();
     return BlocListener<PaymentRequestBloc, PaymentRequestState>(
       listener: (context, state) {
-        if (state is PaymentRequested) {
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Payment requested  succesfully updated'),
-          ));
-        }
-        if (state is PaymentRequestFailed) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Payment requested Failed Try Again'),
-          ));
-        }
+        handlePaymentRequestResult(context, state);
       },
       child: Scaffold(
         appBar: const CustomAppBar(),
@@ -60,5 +49,19 @@ class PaymentCollectionScreen extends StatelessWidget {
         )),
       ),
     );
+  }
+}
+
+void handlePaymentRequestResult(
+    BuildContext context, PaymentRequestState state) {
+  if (state is PaymentRequested) {
+    Navigator.pop(context);
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Payment requested successfully updated'),
+    ));
+  } else if (state is PaymentRequestFailed) {
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Payment request failed. Try again'),
+    ));
   }
 }

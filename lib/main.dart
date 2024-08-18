@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fixit_provider/features/authentication/data/datasources/auth_remote_data_source.dart';
 import 'package:fixit_provider/features/authentication/data/datasources/firebase_storage_services.dart';
@@ -23,7 +24,11 @@ import 'package:fixit_provider/features/chat/data/repositories/chat_repository_i
 import 'package:fixit_provider/features/chat/domain/usecases/get_messages.dart';
 import 'package:fixit_provider/features/chat/presentation/bloc/chat_bloc/chat_bloc.dart';
 import 'package:fixit_provider/features/chat/presentation/bloc/message_bloc/message_bloc.dart';
-import 'package:fixit_provider/features/payment/presentation/bloc/seven_days_income/seven_days_income_bloc.dart';
+import 'package:fixit_provider/features/earnings/data/earnings_booking_data_source.dart';
+import 'package:fixit_provider/features/earnings/domain/usecases/montly_income.dart';
+import 'package:fixit_provider/features/earnings/domain/usecases/seven_days_income.dart';
+import 'package:fixit_provider/features/earnings/presentation/bloc/montly_income_bloc/monthly_income_bloc.dart';
+import 'package:fixit_provider/features/earnings/presentation/bloc/seven_days_income/seven_days_income_bloc.dart';
 import 'package:fixit_provider/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,10 +81,17 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) => MessageBloc(
                 GetMessages(ChatRepositoryImpl(FirebaseChatDatasource())))),
-        BlocProvider(create: (context) => SevenDaysIncomeBloc()),
+        BlocProvider(
+            create: (context) => SevenDaysIncomeBloc(
+                getLast7DaysIncomeUseCase: GetLast7DaysIncomeUseCase(
+                    EarningsBookingDataSource(FirebaseFirestore.instance)),
+                earningsBookingDataSource:
+                    EarningsBookingDataSource(FirebaseFirestore.instance))),
         BlocProvider(
             create: (context) =>
-                PaymentRequestBloc(UpdateBookingStatusUsecases()))
+                PaymentRequestBloc(UpdateBookingStatusUsecases())),
+        BlocProvider(
+            create: (context) => MonthlyIncomeBloc(MontlyIncomeUseCase()))
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

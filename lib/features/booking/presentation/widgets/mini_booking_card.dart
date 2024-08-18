@@ -9,19 +9,28 @@ class MiniBookingCard extends StatelessWidget {
   final IconData serviceIcon;
 
   const MiniBookingCard({
-    Key? key,
+    super.key,
     required this.service,
     required this.amount,
     required this.bookingDate,
     required this.bookedOn,
     this.cardColor = Colors.blue,
     this.serviceIcon = Icons.cleaning_services,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
+    //screeen Dimensions
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    // card width as a percentage of screen width for responsiveness
+    final cardWidth = screenWidth * 0.90;
+    final cardHeight = screenHeight * 0.25;
+
     return Container(
-      width: 200,
+      width: cardWidth,
+      height: cardHeight,
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -39,61 +48,60 @@ class MiniBookingCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: Padding(
+        padding: EdgeInsets.all(cardWidth * 0.05),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(serviceIcon, color: Colors.white, size: 24),
-                    Text(
-                      '\$${amount.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
+                Icon(serviceIcon, color: Colors.white, size: cardWidth * 0.1),
                 Text(
-                  service,
-                  style: const TextStyle(
+                  '\₹${amount.toStringAsFixed(2)}',
+                  style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: cardWidth * 0.05,
                   ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Date : $bookingDate',
-                  style: TextStyle(
-                      color: Colors.white.withOpacity(0.8), fontSize: 12),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    const Icon(Icons.access_time,
-                        color: Colors.white, size: 14),
-                    const SizedBox(width: 4),
-                    Text(
-                      'created $bookedOn',
-                      style: TextStyle(
-                          color: Colors.white.withOpacity(0.8), fontSize: 12),
-                    ),
-                  ],
                 ),
               ],
             ),
-          ),
-        ],
+            SizedBox(height: cardHeight * 0.05),
+            Text(
+              service,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: cardWidth * 0.06,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+            SizedBox(height: cardHeight * 0.02),
+            Text(
+              'Date: $bookingDate',
+              style: TextStyle(
+                color: Colors.white.withOpacity(0.8),
+                fontSize: cardWidth * 0.04,
+              ),
+            ),
+            SizedBox(height: cardHeight * 0.03),
+            Row(
+              children: [
+                Icon(Icons.access_time,
+                    color: Colors.white, size: cardWidth * 0.05),
+                SizedBox(width: cardWidth * 0.02),
+                Text(
+                  'Created $bookedOn',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.8),
+                    fontSize: cardWidth * 0.04,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

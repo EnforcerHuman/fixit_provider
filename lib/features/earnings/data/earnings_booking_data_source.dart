@@ -1,54 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fixit_provider/features/booking/data/model/booking_model.dart';
-import 'package:fixit_provider/features/payment/domain/enitities/income.dart';
 
 class EarningsBookingDataSource {
   final FirebaseFirestore firebaseFirestore;
 
   EarningsBookingDataSource(this.firebaseFirestore);
-
-  // Stream<List<BookingModel>> getLast7CompletedBookings(String providerId) {
-  //   return firebaseFirestore
-  //       .collection('Bookings')
-  //       .where('serviceProviderId', isEqualTo: providerId)
-  //       .where('status', isEqualTo: 'Completed')
-  //       .orderBy('bookingDateTime', descending: true)
-  //       .limit(7)
-  //       .snapshots()
-  //       .map((querySnapshot) {
-  //     return querySnapshot.docs.map((docSnapshot) {
-  //       return BookingModel.fromMap(
-  //           docSnapshot.data() as Map<String, dynamic>, docSnapshot.id);
-  //     }).toList();
-  //   });
-  // }
-
-  Stream<List<IncomeData>> getLast7CompletedBookings(String providerId) {
-    return firebaseFirestore
+  Stream<List<BookingModel>> getBookings(String providerId) {
+    return FirebaseFirestore.instance
         .collection('Bookings')
-        .where('serviceProviderId', isEqualTo: providerId)
-        .where('status', isEqualTo: 'Completed')
-        .orderBy('bookingDateTime', descending: true)
-        .limit(7)
+        .where('serviceProviderId', isEqualTo: 'x90xCE8D67dI15D5J3MYKmjGJgX2')
         .snapshots()
         .map((querySnapshot) {
       return querySnapshot.docs.map((docSnapshot) {
-        final data = docSnapshot.data() as Map<String, dynamic>;
-
-        // Parse the date string into a DateTime object
-        final dateString = data['bookingDateTime'] as String?;
-        final date = dateString != null
-            ? DateTime.tryParse('$dateString T00:00:00') ??
-                DateTime.now() // Add time to make it parseable
-            : DateTime.now();
-
-        // Parse the amount field into a double
-        final amountString = data['amount'] as String?;
-        final amount =
-            amountString != null ? double.tryParse(amountString) ?? 0.0 : 0.0;
-
-        // Create and return IncomeData
-        return IncomeData(date: date, amount: amount);
+        return BookingModel.fromMap(
+            docSnapshot.data() as Map<String, dynamic>, docSnapshot.id);
       }).toList();
     });
   }
