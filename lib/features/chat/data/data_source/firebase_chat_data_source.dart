@@ -1,13 +1,8 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fixit_provider/features/chat/data/models/conversation_model.dart';
 import 'package:fixit_provider/features/chat/data/models/message_model.dart';
 
 class FirebaseChatDatasource {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   Future<void> sendMessage(ConversationModel conversation, MessageModel message,
       String userName, String providerName) async {
@@ -52,6 +47,7 @@ class FirebaseChatDatasource {
         .map((snapshot) {
       return snapshot.docs
           .map((doc) =>
+              // ignore: unnecessary_cast
               MessageModel.fromMap(doc.data() as Map<String, dynamic>, doc.id))
           .toList();
     });

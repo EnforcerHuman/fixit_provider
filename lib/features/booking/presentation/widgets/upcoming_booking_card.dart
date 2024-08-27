@@ -60,9 +60,9 @@ class UpcomingBookingCard extends StatelessWidget {
                   SizedBox(height: isSmallScreen ? 12 : 16),
                   _buildInfoRow(
                       'Amount per hour', '₹${amount.toStringAsFixed(2)}'),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   _buildInfoRow('Booking date', bookingDate),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   _buildInfoRow('Booking Requested', bookedOn, isBlue: true),
                   SizedBox(height: isSmallScreen ? 16 : 24),
                   isRequsted

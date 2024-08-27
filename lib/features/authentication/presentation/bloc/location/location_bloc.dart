@@ -24,8 +24,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   void _onSelectLocation(
       SelectLocationEvent event, Emitter<LocationState> emit) {
-    print(' Location : ${event.position}');
-    print(event.adress);
     emit(LocationSelected(event.adress, selectedPosition: event.position));
   }
 }

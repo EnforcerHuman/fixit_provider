@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:fixit_provider/features/chat/domain/entities/message.dart';
 import 'package:fixit_provider/features/chat/domain/usecases/get_messages.dart';
+// ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
 
 part 'message_event.dart';
@@ -14,7 +15,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
         await emit.forEach<List<Message>>(
           getMessages.execute(event.conversationId),
           onData: (messages) => MessagesLoaded(messages),
-          onError: (error, StackTrace) =>
+          onError: (error, stackTrace) =>
               MessagesError("Failed to load messages"),
         );
       } catch (e) {

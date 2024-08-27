@@ -15,7 +15,6 @@ class FirebaseStorageService {
       final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
       return downloadUrl;
     } catch (e) {
-      print("Error uploading image: $e");
       return null;
     }
   }

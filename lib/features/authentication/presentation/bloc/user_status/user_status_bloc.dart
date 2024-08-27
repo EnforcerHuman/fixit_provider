@@ -13,12 +13,10 @@ class UserStatusBloc extends Bloc<UserStatusEvent, UserStatusState> {
     });
 
     on<CheckUserStatus>((event, emit) async {
-      print('printing from userstatus bloc');
       emit(UserStatusChecking());
       try {
         final bool isVerified =
             await providerRepo.isServiceProviderVerifed(event.userId);
-        print('isVErified : $isVerified');
         if (isVerified == true) {
           emit(UserVerified());
         } else {

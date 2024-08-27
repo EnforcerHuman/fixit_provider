@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fixit_provider/features/authentication/presentation/verification_pending_screen.dart';
@@ -9,24 +10,17 @@ class AuthRemoteDataSource {
 
   Future<String> sendOTP(String phone) async {
     Completer<String> completer = Completer();
-    print('Sending OTP started..........');
     await _auth.verifyPhoneNumber(
       phoneNumber: "+91$phone",
       timeout: const Duration(seconds: 40),
-      verificationCompleted: (credential) {
-        print('Verification completed automatically');
-      },
+      verificationCompleted: (credential) {},
       verificationFailed: (e) {
-        print('Verification failed: ${e.message}');
         completer.completeError(e); // Complete with error
       },
       codeSent: (verificationId, responseToken) {
         completer.complete(verificationId);
-        print('Verification ID from auth remote data source: $verificationId');
       },
-      codeAutoRetrievalTimeout: (verificationId) {
-        print('Auto retrieval timeout: $verificationId');
-      },
+      codeAutoRetrievalTimeout: (verificationId) {},
     );
     return completer.future;
   }
@@ -35,25 +29,18 @@ class AuthRemoteDataSource {
   Future<UserCredential> verifyOTP(
       String otp, String verificationId, String email, String password) async {
     try {
-      print('Attempting to verify OTP...');
       PhoneAuthCredential phoneCredential = PhoneAuthProvider.credential(
         verificationId: verificationId,
         smsCode: otp,
       );
-      print('Phone credential created');
 
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithCredential(phoneCredential);
-      print(
-          'Phone authentication successful. User ID: ${userCredential.user?.uid}');
 
       await linkEmailPassword(email, password);
-      print('Email and password linked successfully');
 
-      print('OTP verification and account linking completed successfully');
       return userCredential;
     } catch (e) {
-      print('Authentication failed. Error: $e');
       throw Exception('Error verifying OTP: $e');
     }
   }
@@ -75,10 +62,8 @@ class AuthRemoteDataSource {
   Future<void> sendPasswordResetEmail(String email) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      print('Password reset email sent successfully');
       // You can add additional logic here, such as showing a success message to the user
     } on FirebaseAuthException catch (e) {
-      print('Failed to send password reset email: ${e.code}');
       String errorMessage;
       switch (e.code) {
         case 'invalid-email':
@@ -93,7 +78,6 @@ class AuthRemoteDataSource {
       // You can handle the error here, such as showing an error message to the user
       throw errorMessage;
     } catch (e) {
-      print('Unexpected error: $e');
       throw 'An unexpected error occurred. Please try again later.';
     }
   }
@@ -115,17 +99,25 @@ class AuthRemoteDataSource {
 
       if (user!['isVerified'] == true) {
         isverified = true;
+        // ignore: use_build_context_synchronously
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (ctx) => VerificationPendingScreen()),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Logged in successfully')),
+          MaterialPageRoute(
+              builder: (ctx) => const VerificationPendingScreen()),
         );
       } else if (user['isVerified'] == false) {
         isverified = false;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Still under verification')),
-        );
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            color: Colors.green,
+            title: 'Pending',
+            message: 'Your profile verification is still under verification !',
+            contentType: ContentType.help,
+          ),
+        ));
       }
       return user;
       // If successful, navigate to the home screen
@@ -138,14 +130,23 @@ class AuthRemoteDataSource {
       } else {
         errorMessage = 'An error occurred: ${e.message}';
       }
-      print(errorMessage);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage)),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        content: AwesomeSnackbarContent(
+          color: Colors.green,
+          title: 'unexpected',
+          message: errorMessage,
+          contentType: ContentType.help,
+        ),
+      ));
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text(errorMessage)),
+      // );
     } catch (e) {
-      print('Unexpected error: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('An unexpected error occurred')),
+        const SnackBar(content: Text('An unexpected error occurred')),
       );
     }
     return null;
@@ -162,14 +163,11 @@ class AuthRemoteDataSource {
 
       // Check if the document exists
       if (documentSnapshot.exists) {
-        print(documentSnapshot.data() as Map<String, dynamic>);
         return documentSnapshot.data() as Map<String, dynamic>;
       } else {
-        print('No user found with ID: $userId');
         return null;
       }
     } catch (e) {
-      print('Error retrieving user data: $e');
       return null;
     }
   }

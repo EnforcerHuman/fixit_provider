@@ -27,8 +27,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       await emit.forEach<List<ConversationModel>>(
           firebaseChatDatasource.getConversations(userId),
           onData: (data) {
-            print('PRINT FROM BLOC');
-            print(data);
             return ConversationsLoaded(data);
           },
           onError: (error, stackTrace) => ConversationError(error.toString()));

@@ -8,7 +8,7 @@ class OtpSending extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        padding: EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(24.0),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10.0),
@@ -24,8 +24,8 @@ class OtpSending extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(text, style: const TextStyle(fontSize: 16)),
-            SizedBox(height: 16),
-            CircularProgressIndicator(),
+            const SizedBox(height: 16),
+            const CircularProgressIndicator(),
           ],
         ),
       ),

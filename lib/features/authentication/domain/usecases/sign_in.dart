@@ -14,7 +14,6 @@ class SignInUseCase {
         email: email,
         password: password,
       );
-      print(userCredential.user?.uid);
       return userCredential;
     } catch (e) {
       throw Exception('Error signing in: $e');

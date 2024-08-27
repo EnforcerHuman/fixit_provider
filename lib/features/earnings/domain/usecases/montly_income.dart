@@ -1,47 +1,56 @@
-import 'package:fixit_provider/features/earnings/domain/enitities/income.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:intl/intl.dart';
+import 'dart:async';
+import 'package:fixit_provider/features/earnings/data/models/monthly_overview.dart';
+import 'package:fixit_provider/features/earnings/data/earnings_booking_data_source.dart';
+import 'package:fixit_provider/features/booking/data/model/booking_model.dart';
 
-class MontlyIncomeUseCase {
-  Stream<List<FlSpot>> getMonthlyIncomeData() async* {
-    // Replace with your actual implementation to fetch data
-    List<IncomeData> incomeDataList = await fetchIncomeData();
+class GetMonthlyOverviewUseCase {
+  final EarningsBookingDataSource earningsBookingDataSource;
 
-    Map<DateTime, double> earningsByMonth = {};
-    DateTime now = DateTime.now();
-    DateTime startOfYear = DateTime(now.year, 1, 1);
+  GetMonthlyOverviewUseCase(this.earningsBookingDataSource);
 
-    // Aggregate income by month
-    for (var data in incomeDataList) {
-      DateTime monthKey = DateTime(data.date.year, data.date.month);
-      if (earningsByMonth.containsKey(monthKey)) {
-        earningsByMonth[monthKey] = earningsByMonth[monthKey]! + data.amount;
-      } else {
-        earningsByMonth[monthKey] = data.amount;
+  Stream<List<MonthlyOverview>> execute(String providerId, int year) async* {
+    List<MonthlyOverview> monthlyOverviews = [];
+
+    // Get the current month
+    int currentMonth = DateTime.now().month;
+
+    for (int month = 1; month <= currentMonth; month++) {
+      // Fetch bookings for the current month
+      List<BookingModel> bookings = await earningsBookingDataSource
+          .getMonthlyBookings(providerId, month, year)
+          .first;
+
+      double totalEarnings = 0.0;
+      int totalBookings = 0;
+
+      if (bookings.isNotEmpty) {
+        // Calculate total earnings for the current month
+        totalEarnings = bookings.fold(0.0, (sum, booking) {
+          double payment = 0.0;
+          try {
+            payment = double.parse(booking.totalPayment);
+          } catch (e) {
+            // Handle parsing error if needed
+          }
+          return sum + payment;
+        });
+
+        totalBookings = bookings.length;
       }
+
+      // Format the month and year
+      String monthYear = DateFormat.yMMMM().format(DateTime(year, month));
+
+      // Create a MonthlyOverview object and add it to the list
+      monthlyOverviews.add(MonthlyOverview(
+        monthYear,
+        totalBookings.toString(),
+        totalEarnings.toStringAsFixed(2),
+      ));
     }
 
-    // Ensure all months of the current year are included
-    List<DateTime> allMonths = List.generate(12, (index) {
-      return DateTime(now.year, index + 1);
-    });
-
-    List<FlSpot> dataPoints = allMonths.map((month) {
-      double amount = earningsByMonth[month] ?? 0.0;
-      return FlSpot(month.month.toDouble() - 1, amount);
-    }).toList();
-
-    yield dataPoints;
-  }
-
-// Simulated fetch function, replace with your actual data fetching logic
-  Future<List<IncomeData>> fetchIncomeData() async {
-    // Dummy data for testing
-    return [
-      IncomeData(date: DateTime(2024, 1, 15), amount: 150.0),
-      // IncomeData(date: DateTime(2024, 2, 22), amount: 200.0),
-      // IncomeData(date: DateTime(2024, 3, 10), amount: 300.0),
-      // IncomeData(date: DateTime(2024, 5, 5), amount: 250.0),
-      // IncomeData(date: DateTime(2024, 7, 8), amount: 400.0),
-    ];
+    // Yield the list of monthly overviews
+    yield monthlyOverviews;
   }
 }

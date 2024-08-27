@@ -6,7 +6,6 @@ class BookingUseCase {
 
   Stream<List<BookingModel>> getPendingBooking(String id) {
     return bookingRemotedataSource.getBookings(id).map((bookings) {
-      print(bookings);
       return bookings
           .where((booking) => booking.status == 'Requested')
           .toList();
@@ -14,7 +13,6 @@ class BookingUseCase {
   }
 
   Stream<List<BookingModel>> getAcceptedBooking(String date, String id) {
-    print(date);
     return bookingRemotedataSource.getBookings(id).map((bookings) {
       return bookings
           .where((booking) =>

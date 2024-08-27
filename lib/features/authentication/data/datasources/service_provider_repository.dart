@@ -18,7 +18,6 @@ class ServiceProviderRepository {
 
     try {
       await collectionRef.doc(serviceProvider.id).set(serviceProvider.toJson());
-      print('ServiceProvider data stored successfully!');
     } on FirebaseException catch (e) {
       throw Exception('FirebaseException: ${e.message}');
     } catch (e) {
@@ -32,8 +31,7 @@ class ServiceProviderRepository {
         .collection('ServiceProviders')
         .doc(userId)
         .get();
-    print('user is verified or not : *******************');
-    print(user['isVerified']);
+
     return user['isVerified'];
   }
 }

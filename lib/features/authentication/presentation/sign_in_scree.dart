@@ -6,7 +6,6 @@ import 'package:fixit_provider/features/authentication/presentation/forgot_passw
 import 'package:fixit_provider/features/authentication/presentation/sign_up_screen.dart';
 import 'package:fixit_provider/features/authentication/presentation/verification_pending_screen.dart';
 import 'package:fixit_provider/features/authentication/presentation/widgets/otp_loading.dart';
-import 'package:fixit_provider/features/booking/presentation/screens/home_screen.dart';
 import 'package:fixit_provider/features/main_navigation/presentation/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -105,7 +104,7 @@ class SignInScreen extends StatelessWidget {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (ctx) =>
-                                                ForgotPasswordScreen()));
+                                                const ForgotPasswordScreen()));
                                   },
                                   child: const Text('Forgot Password?'),
                                 ),

@@ -55,6 +55,7 @@ class TabBarAndTabViews extends StatefulWidget {
   const TabBarAndTabViews({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _TabBarAndTabViewsState createState() => _TabBarAndTabViewsState();
 }
 

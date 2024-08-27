@@ -1,7 +1,9 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:fixit_provider/common/widgets/app_bar.dart';
 import 'package:fixit_provider/features/authentication/data/datasources/auth_local_data_source.dart';
 import 'package:fixit_provider/features/authentication/presentation/bloc/user_status/user_status_bloc.dart';
+import 'package:fixit_provider/features/authentication/presentation/sign_in_scree.dart';
 import 'package:fixit_provider/features/authentication/presentation/widgets/otp_loading.dart';
-import 'package:fixit_provider/features/booking/presentation/screens/home_screen.dart';
 import 'package:fixit_provider/features/main_navigation/presentation/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,32 +17,37 @@ class VerificationPendingScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is UserVerified) {
           SharedPreferencesHelper.setVerificationStatus(true);
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              backgroundColor: Colors.green,
-              content: Text('Congrats! Your Application is verified')));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            elevation: 0,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            content: AwesomeSnackbarContent(
+              color: Colors.green,
+              title: 'Congrats!',
+              message: 'Your Application is Approved ',
+              contentType: ContentType.success,
+            ),
+          ));
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => MainScreen()),
+              MaterialPageRoute(builder: (context) => const MainScreen()),
               (route) => false);
         } else if (state is UserNotVerified) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Your Application is still under verification')));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            elevation: 0,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            content: AwesomeSnackbarContent(
+              color: Colors.green,
+              title: 'Pending',
+              message:
+                  'Your profile verification is still under verification !',
+              contentType: ContentType.help,
+            ),
+          ));
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              // Handle back action
-            },
-          ),
-          title: const Text('FixIt',
-              style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold)),
-          centerTitle: true,
-        ),
+        appBar: const CustomAppBar(),
         body: BlocBuilder<UserStatusBloc, UserStatusState>(
           builder: (context, state) {
             return Padding(
@@ -48,6 +55,17 @@ class VerificationPendingScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (ctx) => const SignInScreen()));
+                          },
+                          icon: const Text('Logout'))
+                    ],
+                  ),
                   const Spacer(),
                   Image.asset(
                     'assets/img/verification_pending.png',
@@ -79,9 +97,7 @@ class VerificationPendingScreen extends StatelessWidget {
                         // Handle button press
                         String userId =
                             await SharedPreferencesHelper.getUserId();
-
-                        print('USER ID :');
-                        print(userId);
+                        // ignore: use_build_context_synchronously
                         context
                             .read<UserStatusBloc>()
                             .add(CheckUserStatus(userId));
@@ -95,7 +111,7 @@ class VerificationPendingScreen extends StatelessWidget {
                             vertical: 16.0), // Button color
                       ),
                       child: state is UserStatusChecking
-                          ? OtpSending(text: 'Checking user status')
+                          ? const OtpSending(text: 'Checking user status')
                           : const Text(
                               'Check Status',
                               style: TextStyle(

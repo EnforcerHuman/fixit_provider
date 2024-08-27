@@ -8,7 +8,6 @@ class ImagePickerService {
       final XFile? image = await _picker.pickImage(source: source);
       return image;
     } catch (e) {
-      print("Error picking image: $e");
       return null;
     }
   }

@@ -19,11 +19,11 @@ class _IncomeBarChartState extends State<IncomeBarChart> {
   Widget build(BuildContext context) {
     // Check if there's data to display
     if (widget.incomeData.isEmpty) {
-      return Center(child: Text('No data available'));
+      return const Center(child: Text('No data available'));
     }
 
     // Ensure minimum number of bars for better chart appearance
-    final minBars = 7;
+    const minBars = 7;
     final incomeData = List.generate(
       minBars,
       (index) => index < widget.incomeData.length
@@ -158,8 +158,6 @@ class _IncomeBarChartState extends State<IncomeBarChart> {
     double adjustedHeight = isTouched ? barHeight : barHeight;
 
     // Debug print statements to trace the values
-    print(
-        'Bar Index: $x, Original Value: $y, Bar Height: $barHeight, Is Touched: $isTouched, Adjusted Height: $adjustedHeight');
 
     return BarChartGroupData(
       x: x,

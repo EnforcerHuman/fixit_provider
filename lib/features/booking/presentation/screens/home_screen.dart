@@ -7,7 +7,7 @@ import 'package:fixit_provider/features/booking/presentation/widgets/home_screen
 import 'package:fixit_provider/features/booking/presentation/widgets/horizontal_booking_list.dart';
 import 'package:fixit_provider/features/booking/presentation/widgets/welcome_widget.dart';
 import 'package:fixit_provider/features/earnings/presentation/bloc/seven_days_income/seven_days_income_bloc.dart';
-import 'package:fixit_provider/features/earnings/presentation/screens/earning_history_screen.dart';
+import 'package:fixit_provider/features/earnings/presentation/screens/main_earning_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -57,5 +57,5 @@ void onViewAllPressed(BuildContext context) {
 
 void onHistoryPressed(BuildContext context) {
   Navigator.of(context)
-      .push(MaterialPageRoute(builder: (ctx) => EarningHistoryScreen()));
+      .push(MaterialPageRoute(builder: (ctx) => MainEarningScreen()));
 }

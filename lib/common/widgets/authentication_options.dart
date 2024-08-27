@@ -51,7 +51,7 @@ class _AuthentiactionOptiionsState extends State<AuthentiactionOptiions> {
                   widget.ongoogleclick();
                 },
                 icon: Image.asset('assets/img/Google_logo.png'),
-                label: Text('Google'),
+                label: const Text('Google'),
               ),
               // ElevatedButton.icon(
               //   onPressed: () {

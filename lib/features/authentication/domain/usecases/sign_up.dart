@@ -8,15 +8,13 @@ class SignUpUseCase {
 
   Future<String> signUp(String phoneNumber) async {
     try {
-      String Id = await remoteDataSource.sendOTP(phoneNumber);
-      print('id from use case : $Id');
-      if (Id.isEmpty) {
+      String id = await remoteDataSource.sendOTP(phoneNumber);
+      if (id.isEmpty) {
         throw Exception('Failed to send OTP: Empty ID returned');
       }
-      return Id;
+      return id;
     } catch (e) {
-      print('Error in SignUpUseCase.signUp: $e');
-      throw e; // Make sure to throw the error
+      rethrow;
     }
   }
 
@@ -30,7 +28,6 @@ class SignUpUseCase {
       return await remoteDataSource.verifyOTP(
           otp, verificationId, email, Password);
     } catch (e) {
-      print('Error in SignUpUseCase.verifyOTP: $e');
       rethrow; // Re-throw the exception to be caught by the Bloc
     }
   }
@@ -39,7 +36,6 @@ class SignUpUseCase {
     try {
       await remoteDataSource.linkEmailPassword(email, password);
     } catch (e) {
-      print('Error in SignUpUseCase.linkEmailPassword: $e');
       rethrow; // Re-throw the exception to be caught by the Bloc
     }
   }

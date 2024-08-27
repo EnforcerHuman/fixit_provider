@@ -1,5 +1,4 @@
 import 'package:fixit_provider/features/booking/presentation/bloc/completed_bookings_bloc/completed_bookings_bloc.dart';
-import 'package:fixit_provider/features/booking/presentation/widgets/booking_card.dart';
 import 'package:fixit_provider/features/booking/presentation/widgets/completed_booking_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

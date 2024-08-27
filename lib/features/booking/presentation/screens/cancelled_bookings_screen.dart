@@ -12,7 +12,6 @@ class CancelledBookingsScreen extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<CancelledBookingsBloc, CancelledBookingsState>(
           builder: (context, state) {
-        ;
         if (state is CancelledBookingsLoaded) {
           if (state.cancelledBookings.isEmpty) {
             return const Center(

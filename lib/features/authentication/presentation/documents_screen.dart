@@ -87,6 +87,7 @@ class UploadDocumentsScreen extends StatelessWidget {
                   onTap: () async {
                     XFile? image = await imagepicker.pickImage();
                     if (image != null) {
+                      // ignore: use_build_context_synchronously
                       BlocProvider.of<UploadFileBloc>(context)
                           .add(LicenseUploadEvent(image));
                     }
@@ -101,6 +102,7 @@ class UploadDocumentsScreen extends StatelessWidget {
                     statecount = 2;
                     XFile? image = await imagepicker.pickImage();
                     if (image != null) {
+                      // ignore: use_build_context_synchronously
                       BlocProvider.of<UploadFileBloc>(context)
                           .add(CertificateUploadEvent(image));
                     }
@@ -115,6 +117,7 @@ class UploadDocumentsScreen extends StatelessWidget {
                     statecount = 3;
                     XFile? image = await imagepicker.pickImage();
                     if (image != null) {
+                      // ignore: use_build_context_synchronously
                       BlocProvider.of<UploadFileBloc>(context)
                           .add(ProfileImageUploadEvent(image));
                     }

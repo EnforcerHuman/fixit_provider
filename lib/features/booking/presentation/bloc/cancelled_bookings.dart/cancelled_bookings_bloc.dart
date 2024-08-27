@@ -13,9 +13,6 @@ class CancelledBookingsBloc
   final BookingUseCase bookingUseCase;
   CancelledBookingsBloc(this.bookingUseCase)
       : super(CancelledBookingsInitial()) {
-    on<CancelledBookingsEvent>((event, emit) {
-      // TODO: implement event handler
-    });
     on<GetCancelledBookings>((event, emit) async {
       //
       UserDetails userDetails = UserDetails();

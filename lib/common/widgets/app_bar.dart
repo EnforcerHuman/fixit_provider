@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({Key? key}) : super(key: key);
+  final String? title;
+  const CustomAppBar({super.key, this.title});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       leading: Image.asset('assets/img/Fixit_logo.png'),
+      title: Center(
+        child: Center(
+          child: Text(title ?? ''),
+        ),
+      ),
     );
   }
 

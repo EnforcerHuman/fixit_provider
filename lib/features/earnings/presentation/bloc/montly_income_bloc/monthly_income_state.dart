@@ -6,7 +6,7 @@ sealed class MonthlyIncomeState {}
 final class MonthlyIncomeInitial extends MonthlyIncomeState {}
 
 final class MontlyIncomeLoaded extends MonthlyIncomeState {
-  final List<FlSpot> data;
+  final List<MonthlyOverview> data;
 
   MontlyIncomeLoaded(this.data);
 }

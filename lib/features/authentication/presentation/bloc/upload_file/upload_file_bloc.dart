@@ -30,8 +30,6 @@ class UploadFileBloc extends Bloc<UploadFileEvent, UploadFileState> {
         String? imagePath =
             await firebaseStorage.uploadImageToFirebase(event.license);
         if (imagePath != null) {
-          print('Image Path I $imagePath');
-          print('****************************');
           emit(LicenseUploadedState(imagePath));
         } else {
           emit(LicenseUploadErrorState());

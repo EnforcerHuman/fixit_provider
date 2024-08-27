@@ -12,12 +12,11 @@ class GetLast7DaysIncomeUseCase {
     yield* earningsBookingDataSource.getAllBookings(id).map((bookings) {
       Map<DateTime, double> earningsByDate = {};
       DateTime now = DateTime.now();
-      DateTime sevenDaysAgo = now.subtract(Duration(days: 7));
+      DateTime sevenDaysAgo = now.subtract(const Duration(days: 7));
 
       for (var booking in bookings) {
         try {
           // Print the date for debugging purposes
-          print('Booking date string: ${booking.bookingDateTime}');
 
           DateTime bookingDate = DateTime.parse(booking.bookingDateTime);
 
@@ -39,7 +38,6 @@ class GetLast7DaysIncomeUseCase {
           }
         } catch (e) {
           // Handle date parsing errors
-          print('Date parsing error: ${e.toString()}');
         }
       }
 

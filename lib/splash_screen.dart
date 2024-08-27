@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:fixit_provider/features/authentication/data/datasources/auth_local_data_source.dart';
 import 'package:fixit_provider/features/authentication/presentation/sign_in_scree.dart';
 import 'package:fixit_provider/features/authentication/presentation/verification_pending_screen.dart';
@@ -5,7 +7,7 @@ import 'package:fixit_provider/features/main_navigation/presentation/screens/mai
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -26,17 +28,17 @@ class _SplashScreenState extends State<SplashScreen> {
     isVerified = await SharedPreferencesHelper.getVerificationStatus();
     if (isLogged && isVerified) {
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (ctx) => MainScreen()),
+        MaterialPageRoute(builder: (ctx) => const MainScreen()),
         (route) => false,
       );
     } else if (isLogged && !isVerified) {
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (ctx) => VerificationPendingScreen()),
+        MaterialPageRoute(builder: (ctx) => const VerificationPendingScreen()),
         (route) => false,
       );
     } else {
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (ctx) => SignInScreen()),
+        MaterialPageRoute(builder: (ctx) => const SignInScreen()),
         (route) => false,
       );
     }

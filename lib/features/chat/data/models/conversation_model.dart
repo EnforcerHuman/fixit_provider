@@ -3,17 +3,12 @@ import '../../domain/entities/conversation.dart';
 
 class ConversationModel extends Conversation {
   ConversationModel({
-    required String id,
-    required List<String> participants,
-    required MessageModel lastMessage,
-    required String userName,
-    required String providerName,
-  }) : super(
-            id: id,
-            participants: participants,
-            lastMessage: lastMessage,
-            userName: userName,
-            providerName: providerName);
+    required super.id,
+    required super.participants,
+    required MessageModel super.lastMessage,
+    required super.userName,
+    required super.providerName,
+  });
 
   factory ConversationModel.fromMap(Map<String, dynamic> map, String id) {
     return ConversationModel(

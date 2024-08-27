@@ -7,7 +7,8 @@ import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class LocationWidget extends StatelessWidget {
-  const LocationWidget({super.key});
+  final LatLng? initialLocation;
+  const LocationWidget({super.key, this.initialLocation});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +16,9 @@ class LocationWidget extends StatelessWidget {
       builder: (context, state) {
         if (state is LocationInitial) {
           BlocProvider.of<LocationBloc>(context).add(GetLocationEvent());
-          return Center(child: Text('Getting location...'));
+          return const Center(child: Text('Getting location...'));
         } else if (state is LocationLoading) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (state is LocationLoaded || state is LocationSelected) {
           LatLng position;
           if (state is LocationLoaded) {
@@ -27,12 +28,12 @@ class LocationWidget extends StatelessWidget {
           }
           return GoogleMap(
             initialCameraPosition: CameraPosition(
-              target: position,
+              target: initialLocation ?? position,
               zoom: 14,
             ),
             markers: {
               Marker(
-                markerId: MarkerId('selected-location'),
+                markerId: const MarkerId('selected-location'),
                 position: position,
               ),
             },
@@ -40,9 +41,8 @@ class LocationWidget extends StatelessWidget {
             onTap: (LatLng tappedPosition) async {
               List<Placemark> placemarks = await placemarkFromCoordinates(
                   tappedPosition.latitude, tappedPosition.longitude);
-              print(placemarks);
-              // ignore: use_build_context_synchronously
 
+              // ignore: use_build_context_synchronously
               BlocProvider.of<LocationBloc>(context).add(SelectLocationEvent(
                   tappedPosition,
                   '${placemarks.first.name},${placemarks.first.thoroughfare},${placemarks.first.locality},${placemarks.first.street} ,${placemarks.first.postalCode}'));

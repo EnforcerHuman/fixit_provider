@@ -58,7 +58,7 @@ class MiniBookingCard extends StatelessWidget {
               children: [
                 Icon(serviceIcon, color: Colors.white, size: cardWidth * 0.1),
                 Text(
-                  '\₹${amount.toStringAsFixed(2)}',
+                  '₹${amount.toStringAsFixed(2)}',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

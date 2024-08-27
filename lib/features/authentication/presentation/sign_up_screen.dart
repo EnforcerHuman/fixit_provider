@@ -3,12 +3,13 @@ import 'package:fixit_provider/features/authentication/presentation/bloc/service
 import 'package:fixit_provider/features/authentication/presentation/bloc/service_provider/service_provider_event.dart';
 import 'package:fixit_provider/features/authentication/presentation/bloc/sign_up/sign_up_bloc.dart';
 import 'package:fixit_provider/features/authentication/presentation/otp_verification_screen.dart';
+import 'package:fixit_provider/features/authentication/presentation/sign_in_scree.dart';
 import 'package:fixit_provider/features/authentication/presentation/widgets/otp_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpScreen extends StatelessWidget {
-  SignUpScreen({Key? key}) : super(key: key);
+  SignUpScreen({super.key});
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController phoneController = TextEditingController();
@@ -20,7 +21,7 @@ class SignUpScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             // Handle back button press
           },
@@ -30,7 +31,6 @@ class SignUpScreen extends StatelessWidget {
       body: BlocConsumer<SignUpBloc, SignUpState>(
         listener: (context, state) {
           if (state is OTPSentState) {
-            print('id printed from sign up screen ${state.verificationId}');
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (ctx) => OtpScreen(
                       email: emailController.text,
@@ -53,7 +53,7 @@ class SignUpScreen extends StatelessWidget {
                     Expanded(
                       child: SingleChildScrollView(
                         child: Padding(
-                          padding: EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.all(16.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
@@ -61,7 +61,7 @@ class SignUpScreen extends StatelessWidget {
                                 'Enter your email and password to Sign Up',
                                 style: TextStyle(fontSize: 16),
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               TextFormField(
                                 controller: phoneController,
                                 keyboardType: TextInputType.phone,
@@ -139,16 +139,20 @@ class SignUpScreen extends StatelessWidget {
                                     }
                                   },
                                 ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('Have an account ?'),
+                                  const Text('Have an account ?'),
                                   TextButton(
                                     onPressed: () {
-                                      // Handle sign in
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                              builder: (ctx) =>
+                                                  const SignInScreen()),
+                                          (route) => false);
                                     },
-                                    child: Text('Sign In now'),
+                                    child: const Text('Sign In now'),
                                   ),
                                 ],
                               ),

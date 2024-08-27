@@ -8,12 +8,11 @@ class EarningsBookingDataSource {
   Stream<List<BookingModel>> getBookings(String providerId) {
     return FirebaseFirestore.instance
         .collection('Bookings')
-        .where('serviceProviderId', isEqualTo: 'x90xCE8D67dI15D5J3MYKmjGJgX2')
+        .where('serviceProviderId', isEqualTo: providerId)
         .snapshots()
         .map((querySnapshot) {
       return querySnapshot.docs.map((docSnapshot) {
-        return BookingModel.fromMap(
-            docSnapshot.data() as Map<String, dynamic>, docSnapshot.id);
+        return BookingModel.fromMap(docSnapshot.data(), docSnapshot.id);
       }).toList();
     });
   }
@@ -32,8 +31,7 @@ class EarningsBookingDataSource {
         .snapshots()
         .map((querySnapshot) {
       return querySnapshot.docs.map((docSnapshot) {
-        return BookingModel.fromMap(
-            docSnapshot.data() as Map<String, dynamic>, docSnapshot.id);
+        return BookingModel.fromMap(docSnapshot.data(), docSnapshot.id);
       }).toList();
     });
   }
@@ -49,8 +47,7 @@ class EarningsBookingDataSource {
         .snapshots()
         .map((querySnapshot) {
       return querySnapshot.docs.map((docSnapshot) {
-        return BookingModel.fromMap(
-            docSnapshot.data() as Map<String, dynamic>, docSnapshot.id);
+        return BookingModel.fromMap(docSnapshot.data(), docSnapshot.id);
       }).toList();
     });
   }
@@ -63,53 +60,31 @@ class EarningsBookingDataSource {
         .snapshots()
         .map((querySnapshot) {
       return querySnapshot.docs.map((docSnapshot) {
-        return BookingModel.fromMap(
-            docSnapshot.data() as Map<String, dynamic>, docSnapshot.id);
-      }).toList();
-    });
-  }
-}
-
-class BookingRemoteDataSource {
-  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-
-  Stream<List<BookingModel>> getMonthlyBookings(
-      String providerId, int month, int year) {
-    String startDate = DateTime(year, month, 1).toIso8601String();
-    String endDate = DateTime(year, month + 1, 1).toIso8601String();
-
-    return _firebaseFirestore
-        .collection('Bookings')
-        .where('serviceProviderId', isEqualTo: providerId)
-        .where('status', isEqualTo: 'Completed')
-        .where('bookingDateTime', isGreaterThanOrEqualTo: startDate)
-        .where('bookingDateTime', isLessThan: endDate)
-        .orderBy('bookingDateTime')
-        .snapshots()
-        .map((querySnapshot) {
-      return querySnapshot.docs.map((docSnapshot) {
-        return BookingModel.fromMap(
-            docSnapshot.data() as Map<String, dynamic>, docSnapshot.id);
+        return BookingModel.fromMap(docSnapshot.data(), docSnapshot.id);
       }).toList();
     });
   }
 
-  Stream<List<BookingModel>> getYearlyBookings(String providerId, int year) {
-    String startDate = DateTime(year, 1, 1).toIso8601String();
-    String endDate = DateTime(year + 1, 1, 1).toIso8601String();
+  Stream<List<BookingModel>> getDailyBookings(
+    String providerId,
+  ) {
+    // Create start and end dates for the day
+    // String startDate =
+    //     DateTime(date.year, date.month, date.day).toIso8601String();
+    // String endDate =
+    //     DateTime(date.year, date.month, date.day + 1).toIso8601String();
 
-    return _firebaseFirestore
+    return firebaseFirestore
         .collection('Bookings')
         .where('serviceProviderId', isEqualTo: providerId)
         .where('status', isEqualTo: 'Completed')
-        .where('bookingDateTime', isGreaterThanOrEqualTo: startDate)
-        .where('bookingDateTime', isLessThan: endDate)
-        .orderBy('bookingDateTime')
+        // .where('bookingDateTime', isGreaterThanOrEqualTo: startDate)
+        // .where('bookingDateTime', isLessThan: endDate)
+        .orderBy('bookingDateTime', descending: true)
         .snapshots()
         .map((querySnapshot) {
       return querySnapshot.docs.map((docSnapshot) {
-        return BookingModel.fromMap(
-            docSnapshot.data() as Map<String, dynamic>, docSnapshot.id);
+        return BookingModel.fromMap(docSnapshot.data(), docSnapshot.id);
       }).toList();
     });
   }

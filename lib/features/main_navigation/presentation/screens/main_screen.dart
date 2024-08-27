@@ -4,6 +4,7 @@ import 'package:fixit_provider/features/chat/presentation/pages/conversation_lis
 import 'package:fixit_provider/features/main_navigation/presentation/bottom_navigation_bloc/bottom_navigation_bloc_bloc.dart';
 import 'package:fixit_provider/features/main_navigation/presentation/bottom_navigation_bloc/bottom_navigation_bloc_event.dart';
 import 'package:fixit_provider/features/main_navigation/presentation/bottom_navigation_bloc/bottom_navigation_bloc_state.dart';
+import 'package:fixit_provider/features/profile/presentation/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/bottom_nav_bar.dart';
@@ -22,9 +23,10 @@ class MainScreen extends StatelessWidget {
 
 class MainScreenContent extends StatelessWidget {
   final List<Widget> _pages = [
-    HomeScreen(),
+    const HomeScreen(),
     AllBookingsScreen(),
-    ConversationListScreen()
+    const ConversationListScreen(),
+    const ProfileScreen()
   ];
 
   MainScreenContent({super.key});

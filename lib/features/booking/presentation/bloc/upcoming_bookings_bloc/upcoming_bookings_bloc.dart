@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:fixit_provider/features/booking/data/model/booking_model.dart';
 import 'package:fixit_provider/features/booking/domain/usecases/booking_use_case.dart';
+// ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
 
 part 'upcoming_bookings_event.dart';

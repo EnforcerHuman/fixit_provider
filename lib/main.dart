@@ -3,13 +3,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fixit_provider/features/authentication/data/datasources/auth_remote_data_source.dart';
 import 'package:fixit_provider/features/authentication/data/datasources/firebase_storage_services.dart';
 import 'package:fixit_provider/features/authentication/data/datasources/get_location.dart';
+import 'package:fixit_provider/features/authentication/data/datasources/service_provider_repository.dart';
+import 'package:fixit_provider/features/authentication/domain/usecases/service_type_converting.dart';
 import 'package:fixit_provider/features/authentication/presentation/bloc/forgot_password/forgot_password_bloc.dart';
 import 'package:fixit_provider/features/authentication/presentation/bloc/location/location_bloc.dart';
 import 'package:fixit_provider/features/authentication/presentation/bloc/service_provider/service_provider_bloc.dart';
+import 'package:fixit_provider/features/authentication/presentation/bloc/service_type_bloc/service_type_bloc.dart';
 import 'package:fixit_provider/features/authentication/presentation/bloc/sign_in/sign_in_bloc.dart';
 import 'package:fixit_provider/features/authentication/presentation/bloc/sign_up/sign_up_bloc.dart';
 import 'package:fixit_provider/features/authentication/presentation/bloc/upload_file/upload_file_bloc.dart';
 import 'package:fixit_provider/features/authentication/presentation/bloc/user_status/user_status_bloc.dart';
+import 'package:fixit_provider/features/booking/data/data_source/booking_remote_data_source.dart';
 import 'package:fixit_provider/features/booking/domain/usecases/booking_use_case.dart';
 import 'package:fixit_provider/features/booking/domain/usecases/update_booking_status_usecases.dart';
 import 'package:fixit_provider/features/booking/presentation/bloc/cancelled_bookings.dart/cancelled_bookings_bloc.dart';
@@ -19,16 +23,23 @@ import 'package:fixit_provider/features/booking/presentation/bloc/request_status
 import 'package:fixit_provider/features/booking/presentation/bloc/requested_bookings_bloc/requested_bookings_bloc.dart';
 import 'package:fixit_provider/features/booking/presentation/bloc/upcoming_bookings_bloc/upcoming_bookings_bloc.dart';
 import 'package:fixit_provider/features/chat/data/data_source/firebase_chat_data_source.dart';
-import 'package:fixit_provider/features/chat/data/repositories/chat_repository.dart';
 import 'package:fixit_provider/features/chat/data/repositories/chat_repository_impl.dart';
 import 'package:fixit_provider/features/chat/domain/usecases/get_messages.dart';
 import 'package:fixit_provider/features/chat/presentation/bloc/chat_bloc/chat_bloc.dart';
 import 'package:fixit_provider/features/chat/presentation/bloc/message_bloc/message_bloc.dart';
 import 'package:fixit_provider/features/earnings/data/earnings_booking_data_source.dart';
+import 'package:fixit_provider/features/earnings/domain/usecases/daily_booking.dart';
 import 'package:fixit_provider/features/earnings/domain/usecases/montly_income.dart';
 import 'package:fixit_provider/features/earnings/domain/usecases/seven_days_income.dart';
+import 'package:fixit_provider/features/earnings/presentation/bloc/daily_income_bloc/daily_income_bloc.dart';
 import 'package:fixit_provider/features/earnings/presentation/bloc/montly_income_bloc/monthly_income_bloc.dart';
 import 'package:fixit_provider/features/earnings/presentation/bloc/seven_days_income/seven_days_income_bloc.dart';
+import 'package:fixit_provider/features/profile/data/service_provider_data_source.dart';
+import 'package:fixit_provider/features/profile/domain/usecases/count_of_bookings.dart';
+import 'package:fixit_provider/features/profile/domain/usecases/get_provider_details.dart';
+import 'package:fixit_provider/features/profile/presentation/bloc/booking_summary_bloc/booking_summary_bloc.dart';
+import 'package:fixit_provider/features/profile/presentation/bloc/edit_profile_bloc/edit_profile_bloc.dart';
+import 'package:fixit_provider/features/profile/presentation/bloc/service_provider_bloc/service_provider_bloc.dart';
 import 'package:fixit_provider/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -91,7 +102,21 @@ class MyApp extends StatelessWidget {
             create: (context) =>
                 PaymentRequestBloc(UpdateBookingStatusUsecases())),
         BlocProvider(
-            create: (context) => MonthlyIncomeBloc(MontlyIncomeUseCase()))
+            create: (context) => MonthlyIncomeBloc(GetMonthlyOverviewUseCase(
+                EarningsBookingDataSource(FirebaseFirestore.instance)))),
+        BlocProvider(
+            create: (context) => ServiceProviderDetailsBloc(
+                GetProviderDetails(ServiceProviderRepository()))),
+        BlocProvider(
+            create: (context) =>
+                BookingSummaryBloc(CountOfBookings(BookingRemotedataSource()))),
+        BlocProvider(
+            create: (context) => ServiceTypeBloc(ServiceTypeConverting())),
+        BlocProvider(
+            create: (context) => DailyIncomeBloc(GetDailyBookingOverviewUseCase(
+                EarningsBookingDataSource(FirebaseFirestore.instance)))),
+        BlocProvider(
+            create: (context) => EditProfileBloc(ServiceProviderDataSource()))
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

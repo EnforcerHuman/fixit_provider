@@ -38,10 +38,16 @@ class PaymentCollectionScreen extends StatelessWidget {
                     onPressed: () {
                       int totalAmount = int.parse(workhourController.text) *
                           int.parse(bookingModel.hourlyPayment);
-                      print((workhourController.text *
-                          int.parse(bookingModel.hourlyPayment)));
-                      context.read<PaymentRequestBloc>().add(RequestPayment(
-                          bookingModel.id, totalAmount.toString()));
+                      // print((workhourController.text *
+                      //     int.parse(bookingModel.hourlyPayment)));
+                      // context.read<PaymentRequestBloc>().add(RequestPayment(
+                      //     bookingModel.id, totalAmount.toString()));
+                      _showWarningDialog(
+                          context,
+                          totalAmount,
+                          bookingModel.hourlyPayment,
+                          bookingModel.id,
+                          workhourController.text);
                     }),
               )
             ],
@@ -64,4 +70,56 @@ void handlePaymentRequestResult(
       content: Text('Payment request failed. Try again'),
     ));
   }
+}
+
+void _showWarningDialog(BuildContext context, int totalAmount, String hourlypay,
+    String id, String workHours) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Confirmation'),
+        // content: Text('Total Work Hours: $workHours /n '),
+        actions: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Total Work hours : $workHours'),
+              const SizedBox(
+                height: 10,
+              ),
+              Text('Hourly payment : $hourlypay'),
+              const SizedBox(
+                height: 10,
+              ),
+              Text('Total Amount : $totalAmount'),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      context
+                          .read<PaymentRequestBloc>()
+                          .add(RequestPayment(id, totalAmount.toString()));
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Request'),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ],
+      );
+    },
+  );
 }

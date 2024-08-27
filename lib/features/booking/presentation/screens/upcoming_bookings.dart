@@ -42,7 +42,6 @@ class UpcomingBookingsScreen extends StatelessWidget {
             String actualdate = DateFormat('yyy-MM-dd').format(date);
             String id = await SharedPreferencesHelper.getUserId();
             // ignore: use_build_context_synchronously
-            print(actualdate);
             context
                 .read<UpcomingBookingsBloc>()
                 .add(GetUpcomingBookings(actualdate, id));

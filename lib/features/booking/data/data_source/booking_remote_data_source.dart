@@ -12,7 +12,9 @@ class BookingRemotedataSource {
         .map((querySnapshot) {
       return querySnapshot.docs.map((docSnapshot) {
         return BookingModel.fromMap(
-            docSnapshot.data() as Map<String, dynamic>, docSnapshot.id);
+            // ignore: unnecessary_cast
+            docSnapshot.data() as Map<String, dynamic>,
+            docSnapshot.id);
       }).toList();
     });
   }
@@ -27,7 +29,7 @@ class BookingRemotedataSource {
         await collectionRef.doc(id).update({'bookingDateTime': date});
       }
     } catch (e) {
-      print('Failed to update booking status: $e');
+      //
     }
   }
 
@@ -39,7 +41,7 @@ class BookingRemotedataSource {
           .doc(id)
           .update({'totalPayment': amount, 'paymentStatus': 'Requested'});
     } catch (e) {
-      print(e.toString());
+//
     }
   }
 }

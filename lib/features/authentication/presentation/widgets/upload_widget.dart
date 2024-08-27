@@ -22,7 +22,7 @@ class UploadFileWidget extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
           const SizedBox(height: 8),
           Container(
@@ -34,7 +34,7 @@ class UploadFileWidget extends StatelessWidget {
             child: TextButton.icon(
               onPressed: onTap,
               icon: const Icon(Icons.upload_file, color: Colors.blue),
-              label: Text(boxText, style: TextStyle(color: Colors.blue)),
+              label: Text(boxText, style: const TextStyle(color: Colors.blue)),
             ),
           ),
         ],

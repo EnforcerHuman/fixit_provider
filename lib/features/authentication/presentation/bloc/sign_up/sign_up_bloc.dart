@@ -12,19 +12,15 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     on<SendOTPEvent>((event, emit) async {
       AuthRemoteDataSource auth = AuthRemoteDataSource();
       SignUpUseCase signUpUseCase = SignUpUseCase(auth);
-      print('SendOTPEvent triggered');
       emit(OtpSendingState());
       try {
         String verificationId = await signUpUseCase.signUp(event.phone);
-        print('id from bloc : $verificationId');
         emit(OTPSentState(verificationId));
       } catch (e) {
-        print('Error in SendOTPEvent: ${e.toString()}');
         emit(SignUpErrorState(e.toString()));
       }
     });
     on<VerifyOTPEvent>((event, emit) async {
-      print('Verify otp event started......');
       // Handle OTP verification
       emit(OtpVerifyingState());
       try {

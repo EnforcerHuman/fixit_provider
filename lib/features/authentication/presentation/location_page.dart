@@ -61,7 +61,7 @@ class LocationScreen extends StatelessWidget {
                     height: 300,
                     width: MediaQuery.of(context).size.width - 50,
                     color: Colors.blue,
-                    child: LocationWidget(),
+                    child: const LocationWidget(),
                   ),
                   const SizedBox(
                     height: 20,
@@ -131,7 +131,7 @@ class LocationScreen extends StatelessWidget {
                                       businessAdressControler.text));
                               //logic to move after location receiving
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (ctx) => ServiceSelection()));
+                                  builder: (ctx) => const ServiceSelection()));
                             })
                       ],
                     ),

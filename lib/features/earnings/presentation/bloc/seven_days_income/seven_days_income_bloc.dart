@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:fixit_provider/features/earnings/data/earnings_booking_data_source.dart';
 import 'package:fixit_provider/features/earnings/domain/enitities/income.dart';
 import 'package:fixit_provider/features/earnings/domain/usecases/seven_days_income.dart';
+// ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
 
 part 'seven_days_income_event.dart';
@@ -22,18 +23,13 @@ class SevenDaysIncomeBloc
         await emit.forEach<List<IncomeData>>(
           getLast7DaysIncomeUseCase.execute(),
           onData: (income) {
-            print('Income data: $income'); // Log income data
             return SevendaysIncomeLoaded(income);
           },
           onError: (error, stackTrace) {
-            print('Error: $error');
-            print('StackTrace: $stackTrace');
             return SevendaysIncomeError('Failed to load income data: $error');
           },
         );
-      } catch (e, stackTrace) {
-        print('Catch Error: $e');
-        print('Catch StackTrace: $stackTrace');
+      } catch (e) {
         emit(SevendaysIncomeError('An unexpected error occurred: $e'));
       }
     });

@@ -10,6 +10,7 @@ class TextEditingField extends StatelessWidget {
   final TextInputType keyboardType;
   final TextStyle? hintStyle;
   final TextStyle? textStyle;
+  final String? label;
   final String? Function(String?)? validation;
   const TextEditingField({
     super.key,
@@ -22,6 +23,7 @@ class TextEditingField extends StatelessWidget {
     this.textStyle,
     this.validation,
     this.obscureText = false,
+    this.label,
   });
 
   @override
@@ -32,6 +34,7 @@ class TextEditingField extends StatelessWidget {
       keyboardType: keyboardType,
       validator: validation,
       decoration: InputDecoration(
+        label: Text(label ?? ''),
         hintText: hintText,
         hintStyle: hintStyle,
         prefixIcon: prefixIcon,
